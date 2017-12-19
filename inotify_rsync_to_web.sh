@@ -18,12 +18,15 @@ HOSTS_URL=$JUMPSERVER_IP_PORT"/japi/listasset/?groupid="$GROUP_ID   #请求api�
 bkdir="/home/rsync_dir/"
 to_rsync_mod="rsync_dir"   #远程同步主机需要开通rsync服务，开启873端口访问，配置文件中指定rsync_dir具体信息。
 log_path='/home/inotify_adm_rsync.log'
-hosts=$(curl $HOSTS_URL|egrep -o "([0-9]{1,3}.){3}[0-9]{1,3}"|xargs) #匹配出IP地址
-to_hosts=($hosts)  #将IP地址变为数组
+#hosts=$(curl $HOSTS_URL|egrep -o "([0-9]{1,3}.){3}[0-9]{1,3}"|xargs) #匹配出IP地址
+#to_hosts=($hosts)  #将IP地址变为数组
 
 
 /usr/local/inotify-tool/bin/inotifywait  --timefmt '%d/%m/%y %H:%M' --format '%T %w %f' -mrq -e close_write,modify,delete,create,attrib $bkdir | while read DATE TIME DIR FILE;do
         FILECHANGE=${DIR}${FILE}
+
+	hosts=$(curl $HOSTS_URL|egrep -o "([0-9]{1,3}.){3}[0-9]{1,3}"|xargs) #匹配出IP地址
+	to_hosts=($hosts)  #将IP地址变为数组
 
         for host in ${to_hosts[@]}
         do
