@@ -9,8 +9,7 @@ else
 	chmod 600 $pid_file
 fi
 
-JUMPSERVER_IP_PORT="http://10.44.47.84:8000"
-#GROUP_ID=18
+JUMPSERVER_IP_PORT="http://IP:PORT"
 GROUP_ID=35
 GROUP_NAME="adm_rsync"
 GROUP_URL=$JUMPSERVER_IP_PORT"/japi/listgroup/"
